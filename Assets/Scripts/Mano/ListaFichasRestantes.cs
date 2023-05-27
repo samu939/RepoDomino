@@ -30,7 +30,10 @@ public class ListaFichasRestantes : MonoBehaviour
         if (CountNotNull() == 0 && generado && !enviado)
         {
             winWindow.SetActive(true);
-            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10000000000");
+            if (PlayerPrefs.GetInt("jugador", 0) == 1 || PlayerPrefs.GetInt("jugador", 0) == 3)
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10000000000");
+                else
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10010000000");
         }
 
     }
@@ -49,6 +52,24 @@ public class ListaFichasRestantes : MonoBehaviour
             }
         }
         return i;
+    }
+
+    public int conteoPuntos()
+    {
+        int puntos = 0;
+
+        for (int j = 0; j < 7; j++)
+        {
+
+            if (listaFichasRestantes[j] != null)
+            {
+
+                puntos += listaFichasRestantes[j].GetComponent<PiezaDomino>().numeroDer + listaFichasRestantes[j].GetComponent<PiezaDomino>().numeroIzq;
+            }
+        }
+
+        return puntos;
+
     }
 
     public int FindIndex(GameObject ficha)

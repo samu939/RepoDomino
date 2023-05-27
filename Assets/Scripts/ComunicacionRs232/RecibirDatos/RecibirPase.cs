@@ -9,29 +9,22 @@ public class RecibirPase : MonoBehaviour
 
     public void RecibirPasar(string data)
     {
-        PlayerPrefs.SetInt("Pases", binarioDecimal(Int32.Parse(data.Substring(6, 2))));
-        if (PlayerPrefs.GetInt("Pases", 0) == 4)
-        {
-            Debug.Log("se acabo");
-            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Fin";
-        }
-        else
-        {
-            if (binarioDecimal(Int32.Parse(data.Substring(6, 2))) != PlayerPrefs.GetInt("Jugador", 0))
-                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Paso el jugador " + binarioDecimal(Int32.Parse(data.Substring(6, 2)));
 
-            if (data.Substring(3, 1) == "0")
-            {
-                Turno(true);
-                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Es tu turno";
-                data = data.Substring(0, 3) + "1" + data.Substring(4);
-            }
+        if (binarioDecimal(Int32.Parse(data.Substring(6, 2))) != PlayerPrefs.GetInt("Jugador", 0))
+            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Paso el jugador " + binarioDecimal(Int32.Parse(data.Substring(6, 2)));
 
-            if (binarioDecimal(Int32.Parse(data.Substring(6, 2))) != PlayerPrefs.GetInt("Jugador", 0))
-            {
-                this.gameObject.GetComponent<RS232>().Send(data);
-            }
+        if (data.Substring(3, 1) == "0")
+        {
+            Turno(true);
+            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Es tu turno";
+            data = data.Substring(0, 3) + "1" + data.Substring(4);
         }
+
+        if (binarioDecimal(Int32.Parse(data.Substring(6, 2))) != PlayerPrefs.GetInt("Jugador", 0))
+        {
+            this.gameObject.GetComponent<RS232>().Send(data);
+        }
+
     }
 
     public static int binarioDecimal(long binario)

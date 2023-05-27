@@ -16,25 +16,19 @@ public class BotonPasar : MonoBehaviour
 
         if (CanPass())
         {
-            PlayerPrefs.SetInt("Pases", PlayerPrefs.GetInt("Pases", 0) + 1);
-            if (PlayerPrefs.GetInt("Pases", 0) == 4)
-            {
-                Debug.Log("se acabo");
-                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Fin";
-            }
-            else
-            {
-                GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
-                for (int j = 0; j < listaFichasRestantes.Length; j++)
-                {
 
-                    listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
 
-                }
-                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
-                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2) + decimalBinario(PlayerPrefs.GetInt("Pases", 0), 2));
-                
+            GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
+            for (int j = 0; j < listaFichasRestantes.Length; j++)
+            {
+
+                listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
+
             }
+            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
+            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2));
+
+
         }
     }
 
