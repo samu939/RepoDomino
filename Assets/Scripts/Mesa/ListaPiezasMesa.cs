@@ -63,8 +63,18 @@ public class ListaPiezasMesa : MonoBehaviour
 
         }
 
-        if (Fichas0 == 7 || Fichas1 == 7 || Fichas2 == 7 || Fichas3 == 7 || Fichas4 == 7 || Fichas5 == 7 || Fichas6 == 7)
-            return true;
+        if (GameObject.FindGameObjectWithTag("jugarDer") != null && GameObject.FindGameObjectWithTag("jugarIzq") != null)
+        {
+            int fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroDer;
+            int fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroIzq;
+
+
+            if ((Fichas0 == 7 && (fichaIzq == 0 && fichaDer == 0)) || (Fichas1 == 7 && (fichaIzq == 1 && fichaDer == 1)) ||
+                (Fichas2 == 7 && (fichaIzq == 2 && fichaDer == 2)) || (Fichas3 == 7 && (fichaIzq == 3 && fichaDer == 3)) ||
+                (Fichas4 == 7 && (fichaIzq == 4 && fichaDer == 4)) || (Fichas5 == 7 && (fichaIzq == 5 && fichaDer == 5)) ||
+                (Fichas6 == 7 && (fichaIzq == 6 && fichaDer == 6)))
+                return true;
+        }
 
         return false;
     }

@@ -32,70 +32,79 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
             }
             fichaSeleccionada.tag = "FichaColocada";
-
-            if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
+            if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
-                Quaternion rotation = transform.localRotation;
-                if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
+                if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    rotation.z = 0;
-                    fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-                    fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
-                    if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                }
-                else
-                {
-                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroIzq)
+                    Quaternion rotation = transform.localRotation;
+                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
                     {
-                        rotation.z = 1;
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+                        rotation.z = 0;
                         fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
                         fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
-
+                        if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
+                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
                     }
                     else
                     {
-                        rotation.z = -1;
+                        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroIzq)
+                        {
+                            rotation.z = 1;
+                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+                            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
 
-                        fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                        int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
-                        fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
-                        fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                        fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                        fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+                        }
+                        else
+                        {
+                            rotation.z = -1;
 
+                            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+                            int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
+                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
+                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
+                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+
+                        }
                     }
-                }
-                fichaSeleccionada.transform.localRotation = rotation;
+                    fichaSeleccionada.transform.localRotation = rotation;
 
-                Vector3 posicionColocada = this.GetComponentInParent<Transform>().position;
-                //Debug.Log(posicionColocada);
-                posicionColocada.y = 0;
-                if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
-                {
+                    Vector3 posicionColocada = this.GetComponentInParent<Transform>().position;
+                    //Debug.Log(posicionColocada);
+                    posicionColocada.y = 0;
+                    if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
+                    {
 
-                    posicionColocada.x -= 1f;
+                        posicionColocada.x -= 1f;
+                    }
+                    else
+                    {
+                        posicionColocada.x -= 1.4f;
+                    }
+                    posicionColocada.z = -1;
+                    fichaSeleccionada.transform.position = posicionColocada;
+
+
+                    fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
+                    fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
+
                 }
                 else
                 {
-                    posicionColocada.x -= 1.4f;
+                    if (PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3)
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "000000001");
+                    else
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("1010000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "01");
                 }
-                posicionColocada.z = -1;
-                fichaSeleccionada.transform.position = posicionColocada;
-
-
-                fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
-                fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
-
             }
             else
             {
-                if (PlayerPrefs.GetInt("jugador", 0) == 1 || PlayerPrefs.GetInt("jugador", 0) == 3)
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "000000001");
+                if (PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3)
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("100000000000");
                 else
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("1010000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "01");
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("100100000000");
             }
 
 
@@ -129,59 +138,69 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
             }
             fichaSeleccionada.tag = "FichaColocada";
-            if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
+            if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
-                Quaternion rotation = transform.localRotation;
-                if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
+                if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    rotation.z = 0;
-                    fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                    fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                }
-                else
-                {
-                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
+                    Quaternion rotation = transform.localRotation;
+                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
                     {
-
-                        rotation.z = -1;
+                        rotation.z = 0;
+                        fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                        fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
                         GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                        fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-                        int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
-                        fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
-                        fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                        fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                        fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
-
                     }
                     else
                     {
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                        rotation.z = 1;
-                        fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                        fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
+                        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
+                        {
 
+                            rotation.z = -1;
+                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
+                            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                            int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
+                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
+                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
+                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+
+                        }
+                        else
+                        {
+                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
+                            rotation.z = 1;
+                            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
+
+                        }
                     }
-                }
-                fichaSeleccionada.transform.localRotation = rotation;
-                Vector3 posicionColocada = this.GetComponentInParent<Transform>().transform.position;
-                posicionColocada.y = 0;
-                if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
-                    posicionColocada.x += 1f;
-                else
-                    posicionColocada.x += 1.37f;
-                posicionColocada.z = -1;
-                fichaSeleccionada.transform.position = posicionColocada;
+                    fichaSeleccionada.transform.localRotation = rotation;
+                    Vector3 posicionColocada = this.GetComponentInParent<Transform>().transform.position;
+                    posicionColocada.y = 0;
+                    if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
+                        posicionColocada.x += 1f;
+                    else
+                        posicionColocada.x += 1.37f;
+                    posicionColocada.z = -1;
+                    fichaSeleccionada.transform.position = posicionColocada;
 
-                fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
-                fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
+                    fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
+                    fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
+                }
+                else
+                {
+                    if (PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3)
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 8) + "0000000001");
+                    else
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10100000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 8) + "01");
+                }
             }
             else
             {
-                if (PlayerPrefs.GetInt("jugador", 0) == 1 || PlayerPrefs.GetInt("jugador", 0) == 3)
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "000000001");
+                if (PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3)
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("100000000000");
                 else
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("1010000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "01");
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("100100000000");
             }
 
         }

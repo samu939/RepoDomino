@@ -10,17 +10,19 @@ public class RS232 : MonoBehaviour
 
     private SerialPort port;
     private Thread readThread;
-    public string output="";    // From Unity to Arduino
+    public string output = "";    // From Unity to Arduino
     public string input;
     public bool looping = true;
     public void StartThread()
     {
 
-        
+        port = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
+
+        port.Open();
         // Creates and starts the thread
         readThread = new Thread(ReadThreadLoop);
         readThread.Start();
-        
+
     }
 
     public bool IsLooping()
@@ -34,35 +36,35 @@ public class RS232 : MonoBehaviour
 
     public void ReadThreadLoop()
     {
-        port = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
-        
-        port.Open();
-        
+
+
         while (IsLooping())
         {
-            
-            
-            if (output != "")
+            if (port.IsOpen)
             {
-                
-                string command = output;
-                
-                SendData(command);
-                
+
+                if (output != "")
+                {
+
+                    string command = output;
+
+                    SendData(command);
+
+                }
+
+                string result = Pruebaleer();
+
+                if (result != "")
+                {
+
+                    input = result;
+
+
+                }
             }
-            
-            string result = Pruebaleer();
-            
-            if (result != "")
-            {
-                
-                input=result;
-                
-                
-            }
-            
+
         }
-       
+
     }
 
 
@@ -71,10 +73,10 @@ public class RS232 : MonoBehaviour
     {
         //Debug.Log(command);
 
-        output=command;
-        
+        output = command;
+
     }
-    
+
 
     private void Start()
     {
@@ -91,10 +93,10 @@ public class RS232 : MonoBehaviour
 
     public void SendData(string data)
     {
-        output="";
+        output = "";
         port.WriteLine(data);
         port.BaseStream.Flush();
-        output="";
+        output = "";
     }
 
     public string ReadData()
@@ -106,15 +108,15 @@ public class RS232 : MonoBehaviour
 
     public string Pruebaleer()
     {
-        
+
         string data = null;
         while (port.BytesToRead > 0)
         {
             data += (char)port.ReadByte();
         }
-        
-        return input+data;
-        
+
+        return input + data;
+
     }
 
     private void OnDisable()

@@ -6,8 +6,7 @@ public class ListaFichasRestantes : MonoBehaviour
 {
     public GameObject[] listaFichasRestantes = new GameObject[7];
     private bool generado = false;
-    private bool enviado = false;
-    public GameObject winWindow;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,15 +26,16 @@ public class ListaFichasRestantes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CountNotNull() == 0 && generado && !enviado)
-        {
-            winWindow.SetActive(true);
-            if (PlayerPrefs.GetInt("jugador", 0) == 1 || PlayerPrefs.GetInt("jugador", 0) == 3)
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10000000000");
-                else
-                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10010000000");
-        }
+        
 
+    }
+
+    public bool Ganada(){
+        if (CountNotNull() == 0 && generado)
+        {
+            return true;        
+        }
+        return false;
     }
 
     public int CountNotNull()
