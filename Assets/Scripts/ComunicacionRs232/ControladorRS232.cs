@@ -39,7 +39,7 @@ public class ControladorRS232 : MonoBehaviour
                     this.gameObject.GetComponent<RecibirVictoria>().Victoria(data);
                     break;    
                 case "101":
-                    
+                    this.gameObject.GetComponent<RecibirTranca>().Tranca(data);
                     break; 
                 case "110":
                     this.gameObject.GetComponent<RecibirPuntuacion>().Puntos(data);

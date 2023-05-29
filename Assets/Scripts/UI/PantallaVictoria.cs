@@ -26,9 +26,7 @@ public class PantallaVictoria : MonoBehaviour
 
     public void Reiniciar()
     {
-        int i = PlayerPrefs.GetInt("puntuacion", 0);
         SceneManager.LoadScene("SampleScene");
-        PlayerPrefs.SetInt("puntuacion", i + 1);
     }
     // Update is called once per frame
     void Update()

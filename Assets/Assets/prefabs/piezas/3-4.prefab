@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -3300407806393112113}
   m_Layer: 0
   m_Name: 3-4
-  m_TagString: fichaContrario
+  m_TagString: pieza
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

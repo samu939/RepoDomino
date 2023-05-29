@@ -37,14 +37,20 @@ public class GeneradorMano : MonoBehaviour
              }
          }
 
-        /*mano[0] = listaPiezasCompletas.listaFichasCompleta[0];
-        mano[1] = listaPiezasCompletas.listaFichasCompleta[1];
-        mano[2] = listaPiezasCompletas.listaFichasCompleta[7];
-        mano[3] = listaPiezasCompletas.listaFichasCompleta[8];
-        mano[4] = listaPiezasCompletas.listaFichasCompleta[13];
-        mano[5] = listaPiezasCompletas.listaFichasCompleta[14];
+        /*mano[0] = listaPiezasCompletas.listaFichasCompleta[1];
+        mano[1] = listaPiezasCompletas.listaFichasCompleta[2];
+        mano[2] = listaPiezasCompletas.listaFichasCompleta[3];
+        mano[3] = listaPiezasCompletas.listaFichasCompleta[0];
+        mano[4] = listaPiezasCompletas.listaFichasCompleta[14];
+        mano[5] = listaPiezasCompletas.listaFichasCompleta[15];
         mano[6] = listaPiezasCompletas.listaFichasCompleta[18];
-
+        piezasUsadas.Add(1);
+        piezasUsadas.Add(2);
+        piezasUsadas.Add(3);
+        piezasUsadas.Add(0);
+        piezasUsadas.Add(14);
+        piezasUsadas.Add(15);
+        piezasUsadas.Add(18);
         mano[0].tag = "pieza";
         mano[0].transform.GetChild(0).tag = "jugarIzq";
         mano[0].transform.GetChild(1).tag = "jugarDer";

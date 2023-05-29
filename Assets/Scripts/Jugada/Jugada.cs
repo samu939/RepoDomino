@@ -32,6 +32,7 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
             }
             fichaSeleccionada.tag = "FichaColocada";
+            GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
@@ -138,6 +139,7 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
             }
             fichaSeleccionada.tag = "FichaColocada";
+            GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
@@ -215,8 +217,10 @@ public class Jugada : MonoBehaviour
     }
 
     public bool FichaYaJugada(GameObject ficha)
-    {
+    {   
+
         GameObject[] listaFichasMesa = new GameObject[28];
+        GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
         listaFichasMesa = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().listaFichasMesa;
         for (int i = 0; i < listaFichasMesa.Length; i++)
         {

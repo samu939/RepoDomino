@@ -55,6 +55,7 @@ public class PrimeraJugada : MonoBehaviour
         fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
         fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
         fichaSeleccionada.tag = "FichaColocada";
+        GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
         fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
         fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
 

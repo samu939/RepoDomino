@@ -2014,6 +2014,7 @@ GameObject:
   - component: {fileID: 1615485456}
   - component: {fileID: 1615485455}
   - component: {fileID: 1615485454}
+  - component: {fileID: 1615485457}
   m_Layer: 0
   m_Name: ComunicationController
   m_TagString: Comunicacion
@@ -2158,6 +2159,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c296f71ae6bacb41ac91b2983a15e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1615485457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615485445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c07fdb997ae36f4e9343b3b0ac42e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1686855290
