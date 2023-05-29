@@ -8,7 +8,7 @@ public class RecibirPuntuacion : MonoBehaviour
     public GameObject winWindow;
     public void Puntos(string data)
     {
-        if (!winWindow.active)
+        if (!winWindow.activeSelf)
         
         {
             int puntosEquipo1 = PlayerPrefs.GetInt("puntosEquipo1", 0);
