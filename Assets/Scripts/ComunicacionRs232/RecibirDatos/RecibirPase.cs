@@ -20,8 +20,7 @@ public class RecibirPase : MonoBehaviour
             GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Paso el jugador " + binarioDecimal(Int32.Parse(data.Substring(4, 2)));
       
         }
-        //if (binarioDecimal(Int32.Parse(data.Substring(4, 2))) != PlayerPrefs.GetInt("Jugador", 0))
-        if(data.Substring(3, 1) == "0")
+        if (binarioDecimal(Int32.Parse(data.Substring(4, 2))) != PlayerPrefs.GetInt("Jugador", 0))
         {
             this.gameObject.GetComponent<RS232>().Send(data);
         }

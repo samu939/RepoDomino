@@ -13,22 +13,23 @@ public class BotonPasar : MonoBehaviour
 
     public void Pass()
     {
-
-        if (CanPass())
+        GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
+        if (listaFichasRestantes.Length > 0)
         {
-
-
-            GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
-            for (int j = 0; j < listaFichasRestantes.Length; j++)
+            if (CanPass() && listaFichasRestantes[0].GetComponent<PiezaDomino>().turno)
             {
 
-                listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
+                for (int j = 0; j < listaFichasRestantes.Length; j++)
+                {
+
+                    listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
+
+                }
+                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2));
+
 
             }
-            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
-            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2));
-
-
         }
     }
 

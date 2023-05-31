@@ -22,6 +22,9 @@ public class PantallaVictoria : MonoBehaviour
     public void Salir()
     {
         Application.Quit();
+        PlayerPrefs.SetInt("puntosEquipo1", 0);
+        PlayerPrefs.SetInt("puntosEquipo2", 0);
+        PlayerPrefs.SetInt("Jugador", 0);
     }   
 
     public void Reiniciar()
@@ -31,15 +34,7 @@ public class PantallaVictoria : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(PlayerPrefs.GetInt("puntosEquipo1", 0)>=100 || PlayerPrefs.GetInt("puntosEquipo2", 0)>=100){
-
-            reiniciar.SetActive(false);
-            salir.SetActive(true);
-
-        }else{
-            reiniciar.SetActive(true);
-            salir.SetActive(false);
-        }
+        
 
         textMesh1.text = "Equipo 1: " + PlayerPrefs.GetInt("puntosEquipo1", 0).ToString("0");
         textMesh2.text = "Equipo 2: " + PlayerPrefs.GetInt("puntosEquipo2", 0).ToString("0");

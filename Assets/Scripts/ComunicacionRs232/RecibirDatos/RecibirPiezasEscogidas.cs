@@ -57,35 +57,31 @@ public class RecibirPiezasEscogidas : MonoBehaviour
                     case "11011": piezasUsadas.Add(27); break;
 
                 }
-                
-                if (j == 1 && PlayerPrefs.GetInt("Jugador",0)==0)
-                    PlayerPrefs.SetInt("Jugador", 4);
-                if (j == 2 && PlayerPrefs.GetInt("Jugador",0)==0)
-                    PlayerPrefs.SetInt("Jugador", 3);
-                if (j == 3 && PlayerPrefs.GetInt("Jugador",0)==0)
-                    PlayerPrefs.SetInt("Jugador", 2);
+
 
 
             }
+            if (j == 0  && PlayerPrefs.GetInt("Jugador", 0) == 0)
+                PlayerPrefs.SetInt("Jugador", 4);
+            if (j == 7 && PlayerPrefs.GetInt("Jugador", 0) == 0)
+                PlayerPrefs.SetInt("Jugador", 3);
+            if (j == 14 && PlayerPrefs.GetInt("Jugador", 0) == 0)
+                PlayerPrefs.SetInt("Jugador", 2);
             GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().piezasUsadas = piezasUsadas;
             GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().GenerarMano();
         }
         else
         {
-            if (PlayerPrefs.GetInt("Jugador",0)==0)
+            if (PlayerPrefs.GetInt("Jugador", 0) == 0)
                 PlayerPrefs.SetInt("Jugador", 1);
-            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje= "Es tu turno";
+            GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Es tu turno";
             Turno(true);
         }
 
     }
 
-    private void OnDisable()
-    {
-       PlayerPrefs.SetInt("Jugador", 0);
-    }
-
-    private void OnClose()
+    
+    private void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("Jugador", 0);
     }

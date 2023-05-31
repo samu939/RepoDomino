@@ -58,13 +58,8 @@ public class RecibirPuntuacion : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-        PlayerPrefs.SetInt("puntosEquipo1", 0);
-        PlayerPrefs.SetInt("puntosEquipo2", 0);
-    }
-    private void OnClose()
-    {
+    private void OnApplicationQuit() {
+        
         PlayerPrefs.SetInt("puntosEquipo1", 0);
         PlayerPrefs.SetInt("puntosEquipo2", 0);
     }

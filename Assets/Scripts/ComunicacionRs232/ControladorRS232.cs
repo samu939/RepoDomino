@@ -18,15 +18,13 @@ public class ControladorRS232 : MonoBehaviour
             switch (data.Substring(0, 3))
             {
                 case "000":
-                    if (data.Length >= 108)
-                        this.gameObject.GetComponent<RecibirPiezasEscogidas>().PiezasYaEscogidas(data);
+                    
+                    this.gameObject.GetComponent<RecibirPiezasEscogidas>().PiezasYaEscogidas(data);
                     break;
                 case "001":
-                    if (data.Length >= 10)
-                    {
+                    
                         this.gameObject.GetComponent<ColocarPiezaOtro>().ColocarPieza(data);
 
-                    }
                     break;
                 case "010":
                     this.Turno(true);
