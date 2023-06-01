@@ -10,6 +10,7 @@ public class PantallaVictoria : MonoBehaviour
     private TextMeshProUGUI textMesh2;
     private GameObject reiniciar;
     private GameObject salir;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,16 +26,22 @@ public class PantallaVictoria : MonoBehaviour
         PlayerPrefs.SetInt("puntosEquipo1", 0);
         PlayerPrefs.SetInt("puntosEquipo2", 0);
         PlayerPrefs.SetInt("Jugador", 0);
-    }   
+    }
 
     public void Reiniciar()
     {
+        if (PlayerPrefs.GetInt("puntosEquipo1", 0) >= 100 || PlayerPrefs.GetInt("puntosEquipo2", 0) >= 100)
+        {
+            PlayerPrefs.SetInt("puntosEquipo1", 0);
+            PlayerPrefs.SetInt("puntosEquipo2", 0);
+            PlayerPrefs.SetInt("Jugador", 0);
+        }
         SceneManager.LoadScene("SampleScene");
     }
     // Update is called once per frame
     void Update()
     {
-        
+
 
         textMesh1.text = "Equipo 1: " + PlayerPrefs.GetInt("puntosEquipo1", 0).ToString("0");
         textMesh2.text = "Equipo 2: " + PlayerPrefs.GetInt("puntosEquipo2", 0).ToString("0");
