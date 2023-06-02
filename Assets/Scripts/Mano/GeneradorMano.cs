@@ -5,7 +5,7 @@ using UnityEngine;
 public class GeneradorMano : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject[] mano;
+    public GameObject[] mano= new GameObject[21];
     private listaPiezas listaPiezasCompletas;
     public List<int> piezasUsadas = new List<int>();
     private int rand;
@@ -23,8 +23,6 @@ public class GeneradorMano : MonoBehaviour
     {
         listaPiezasCompletas = GameObject.FindGameObjectWithTag("tablero").GetComponent<listaPiezas>();
         GameObject.FindGameObjectWithTag("inicio1").SetActive(true);
-        //piezasUsadas=GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RecibirPiezasEscogidas>().PiezasYaEscogidas("000000000000100010000110010000101001100011101000010010101001011011000110101110011111000010001100101001110100");
-        
         while (i < 7)
          {
              rand = Random.Range(0, listaPiezasCompletas.listaFichasCompleta.Length);
@@ -36,7 +34,7 @@ public class GeneradorMano : MonoBehaviour
                  i++;
              }
          }
-
+        
         /*mano[0] = listaPiezasCompletas.listaFichasCompleta[1];
         mano[1] = listaPiezasCompletas.listaFichasCompleta[2];
         mano[2] = listaPiezasCompletas.listaFichasCompleta[3];
@@ -73,7 +71,11 @@ public class GeneradorMano : MonoBehaviour
         mano[6].transform.GetChild(0).tag = "jugarIzq";
         mano[6].transform.GetChild(1).tag = "jugarDer";*/
         this.gameObject.GetComponent<ListaFichasRestantes>().Generado();
-        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviaFichasAgarradas>().EnviarFichasAgarradas();
+    
+        if(PlayerPrefs.GetInt("modo",0)==2)
+            GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().GenerarPila(piezasUsadas);
+        
+        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviaFichasAgarradas>().EnviarFichasAgarradas(); 
         GameObject.FindGameObjectWithTag("botonGenerar").SetActive(false);
         Invoke("crearMano", 0);
     }

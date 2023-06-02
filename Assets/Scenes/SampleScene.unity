@@ -2303,6 +2303,10 @@ PrefabInstance:
       propertyPath: winWindow
       value: 
       objectReference: {fileID: 1969896339}
+    - target: {fileID: 1609807579770457235, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
+      propertyPath: listaFichasRestantes.Array.size
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 1964005336338302686, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -2365,7 +2369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5707191516617039237, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
       propertyPath: mano.Array.size
-      value: 7
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 5707191516617039237, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
       propertyPath: initialPositionFicha
@@ -2493,6 +2497,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
+--- !u!1 &1595183520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3570818151074651206, guid: d257f5885324e3d4eb8f61b9383e078e, type: 3}
+  m_PrefabInstance: {fileID: 1595183519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1595183521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595183520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e118abd3e26cebc44982587b8bf54f64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listaFichasPila:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1615485445
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,6 +2549,7 @@ GameObject:
   - component: {fileID: 1615485455}
   - component: {fileID: 1615485454}
   - component: {fileID: 1615485457}
+  - component: {fileID: 1615485458}
   m_Layer: 0
   m_Name: ComunicationController
   m_TagString: Comunicacion
@@ -2669,6 +2706,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c07fdb997ae36f4e9343b3b0ac42e42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1615485458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615485445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 350edd4fcf6941d469dc77bc0383b844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1686855290

@@ -22,7 +22,8 @@ public class PantallaVictoria : MonoBehaviour
 
     public void Salir()
     {
-        Application.Quit();
+        SceneManager.UnloadSceneAsync("SampleScene");
+        SceneManager.LoadScene("MainMenu");
         PlayerPrefs.SetInt("puntosEquipo1", 0);
         PlayerPrefs.SetInt("puntosEquipo2", 0);
         PlayerPrefs.SetInt("Jugador", 0);

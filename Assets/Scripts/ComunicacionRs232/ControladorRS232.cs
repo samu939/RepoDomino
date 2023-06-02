@@ -41,7 +41,10 @@ public class ControladorRS232 : MonoBehaviour
                     break; 
                 case "110":
                     this.gameObject.GetComponent<RecibirPuntuacion>().Puntos(data);
-                    break;     
+                    break;   
+                case "111":
+                    this.gameObject.GetComponent<RecibirAgarrarPila>().AgarrarPila(data);
+                    break;      
 
             }
         }

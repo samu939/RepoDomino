@@ -14,6 +14,9 @@ public class NumeroJugador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textMesh1.text = "Jugador " + PlayerPrefs.GetInt("Jugador", 0).ToString("0");
+        if (PlayerPrefs.GetInt("modo", 0) == 2)
+            textMesh1.text = "Pila= "+ GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().CountNotNull();
+        else
+            textMesh1.text = "Jugador " + PlayerPrefs.GetInt("Jugador", 0).ToString("0");
     }
 }

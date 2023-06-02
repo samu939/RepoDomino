@@ -23,48 +23,52 @@ public class PrimeraJugada : MonoBehaviour
     public void hacerJugada(GameObject fichaSeleccionada, bool jugadaPropia)
     {
 
-
-        if (jugadaPropia)
+        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == 6 && fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == 6 || 
+            (PlayerPrefs.GetInt("puntosEquipo1",0)>0 || PlayerPrefs.GetInt("puntosEquipo2",0)>0) || 
+            PlayerPrefs.GetInt("modo",0)==2)
         {
-            GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Delete(fichaSeleccionada);
-            this.Turno(false);
+            if (jugadaPropia)
+            {
+                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Delete(fichaSeleccionada);
+                this.Turno(false);
+            }
+            else
+            {
+                fichaSeleccionada.transform.GetChild(0).tag = "jugarIzq";
+                fichaSeleccionada.transform.GetChild(1).tag = "jugarDer";
+                fichaSeleccionada.tag = "fichaContrario";
+                Instantiate(fichaSeleccionada, fichaSeleccionada.transform.position, fichaSeleccionada.transform.rotation);
+                fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
+            }
+
+
+
+            Quaternion rotation = transform.localRotation;
+            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
+            {
+                rotation.z = 0;
+            }
+            else
+                rotation.z = 1;
+
+            fichaSeleccionada.transform.localRotation = rotation;
+            Vector3 posicionColocada = Vector3.zero;
+            posicionColocada.z = -1;
+            fichaSeleccionada.transform.position = posicionColocada;
+            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+            fichaSeleccionada.tag = "FichaColocada";
+            GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
+            fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
+            fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
+
+            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 2);
+            this.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("Pases", 0);
         }
-        else
-        {
-            fichaSeleccionada.transform.GetChild(0).tag = "jugarIzq";
-            fichaSeleccionada.transform.GetChild(1).tag = "jugarDer";
-            fichaSeleccionada.tag = "fichaContrario";
-            Instantiate(fichaSeleccionada, fichaSeleccionada.transform.position, fichaSeleccionada.transform.rotation);
-            fichaSeleccionada = GameObject.FindGameObjectWithTag("fichaContrario");
-        }
-
-
-
-        Quaternion rotation = transform.localRotation;
-        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
-        {
-            rotation.z = 0;
-        }
-        else
-            rotation.z = 1;
-
-        fichaSeleccionada.transform.localRotation = rotation;
-        Vector3 posicionColocada = Vector3.zero;
-        posicionColocada.z = -1;
-        fichaSeleccionada.transform.position = posicionColocada;
-        fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-        fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-        fichaSeleccionada.tag = "FichaColocada";
-        GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
-        fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
-        fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
-
-        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 2);
-        this.gameObject.SetActive(false);
-        PlayerPrefs.SetInt("Pases", 0);
     }
 
-    
+
     public void Turno(bool turno)
     {
         GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pausa : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class Pausa : MonoBehaviour
     }
      public void Salir()
     {
-        Application.Quit();
+        SceneManager.UnloadSceneAsync("SampleScene");
+        SceneManager.LoadScene("MainMenu");
         PlayerPrefs.SetInt("puntosEquipo1", 0);
         PlayerPrefs.SetInt("puntosEquipo2", 0);
         PlayerPrefs.SetInt("Jugador", 0);

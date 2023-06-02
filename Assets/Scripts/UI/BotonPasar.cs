@@ -14,23 +14,64 @@ public class BotonPasar : MonoBehaviour
     public void Pass()
     {
         GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
-        if (listaFichasRestantes.Length > 0)
+        if (PlayerPrefs.GetInt("modo", 0) == 2 && GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().CountNotNull()>0 && GameObject.FindGameObjectWithTag("inicio1")==null)
         {
-            if (CanPass() && listaFichasRestantes[0].GetComponent<PiezaDomino>().turno)
+            if (listaFichasRestantes.Length > 0)
             {
-
-                for (int j = 0; j < listaFichasRestantes.Length; j++)
+                if (CanPass() && listaFichasRestantes[0].GetComponent<PiezaDomino>().turno)
                 {
-
-                    listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
-
+                    GameObject ficha= this.AgarrarPila();
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().AgregarFicha(ficha);
+                    
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("111" + decimalBinario(FindIndex(ficha),5));
                 }
-                GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
-                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2));
-
-
             }
         }
+        else
+        {
+            if (listaFichasRestantes.Length > 0)
+            {
+                if (CanPass() && listaFichasRestantes[0].GetComponent<PiezaDomino>().turno)
+                {
+
+                    for (int j = 0; j < listaFichasRestantes.Length; j++)
+                    {
+
+                        listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = false;
+
+                    }
+                    GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
+                    GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("0110" + decimalBinario(PlayerPrefs.GetInt("Jugador", 0), 2));
+
+
+                }
+            }
+        }
+    }
+
+    public GameObject AgarrarPila(){
+        GameObject ficha=GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().PiezaRandom();
+        GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().Delete(ficha);
+        return ficha;
+
+    }
+
+    public int FindIndex(GameObject ficha)
+    {
+
+        listaPiezas listaFichas = GameObject.FindGameObjectWithTag("tablero").GetComponent<listaPiezas>();
+        for (int j = 0; j < listaFichas.listaFichasCompleta.Length; j++)
+        {
+            if (listaFichas.listaFichasCompleta[j] != null)
+            {
+                if (ficha.name.Contains(listaFichas.listaFichasCompleta[j].name))
+                {
+                    
+                    return j;
+                }
+            }
+        }
+        return 10;
     }
 
     public string decimalBinario(int numero, int Length)

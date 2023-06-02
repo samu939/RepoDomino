@@ -9,18 +9,41 @@ public class RecibirTranca : MonoBehaviour
     {
         int veces = binarioDecimal(Int32.Parse(data.Substring(19, 2)));
         veces++;
-        Debug.Log(veces);
-        if (veces == 4)
+
+        if (veces == 4 && PlayerPrefs.GetInt("modo", 0) == 1)
         {
 
             int llevaE1 = binarioDecimal(Int32.Parse(data.Substring(3, 8)));
             int llevaE2 = binarioDecimal(Int32.Parse(data.Substring(11, 8)));
-            if (llevaE1 > llevaE2)
-                this.gameObject.GetComponent<RS232>().Send("1101" + data.Substring(3, 8));
-            else if (llevaE2 > llevaE1)
-                this.gameObject.GetComponent<RS232>().Send("1100" + data.Substring(11, 8));
-            else if (llevaE1 == llevaE2)
-                this.gameObject.GetComponent<RS232>().Send("110100000000");
+            if (PlayerPrefs.GetInt("modo", 0) == 2)
+            {
+                GameObject[] listaFichasPila = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().listaFichasPila;
+                foreach (GameObject ficha in listaFichasPila)
+                {
+                    if(ficha!=null)
+                        GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().AgregarFicha(ficha);
+                }
+                if (PlayerPrefs.GetInt("Jugador", 0) == 2)
+                    llevaE2 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();
+                else
+                    llevaE1 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();    
+                    
+                if (llevaE1 > llevaE2)
+                    this.gameObject.GetComponent<RS232>().Send("1101" + decimalBinario(llevaE1-llevaE2, 8));
+                else if (llevaE2 > llevaE1)
+                    this.gameObject.GetComponent<RS232>().Send("1100" + decimalBinario(llevaE2-llevaE1, 8));
+                else if (llevaE1 == llevaE2)
+                    this.gameObject.GetComponent<RS232>().Send("110100000000");
+            }
+            else
+            {
+                if (llevaE1 > llevaE2)
+                    this.gameObject.GetComponent<RS232>().Send("1101" + data.Substring(3, 8));
+                else if (llevaE2 > llevaE1)
+                    this.gameObject.GetComponent<RS232>().Send("1100" + data.Substring(11, 8));
+                else if (llevaE1 == llevaE2)
+                    this.gameObject.GetComponent<RS232>().Send("110100000000");
+            }
         }
         else
         {
@@ -29,7 +52,7 @@ public class RecibirTranca : MonoBehaviour
             if ((PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3))
             {
 
-                
+
                 int llevaE1 = binarioDecimal(Int32.Parse(data.Substring(3, 8)));
                 int conteo1 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();
                 conteo1 = conteo1 + llevaE1;
@@ -37,7 +60,7 @@ public class RecibirTranca : MonoBehaviour
             }
             else
             {
-                
+
                 int llevaE2 = binarioDecimal(Int32.Parse(data.Substring(11, 8)));
                 int conteo1 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();
                 conteo1 = conteo1 + llevaE2;

@@ -9,7 +9,7 @@ public class RecibirPase : MonoBehaviour
 
     public void RecibirPasar(string data)
     {
-        Debug.Log(data);
+        
         if (data.Substring(3, 1) == "0")
         {
             Turno(true);

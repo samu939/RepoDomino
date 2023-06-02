@@ -10,6 +10,7 @@ public class EnviaFichasAgarradas : MonoBehaviour
     public void EnviarFichasAgarradas()
     {
         List<int> fichasAgarradas = GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().piezasUsadas;
+        
         string envio = "000";
         int veces = 0;
         foreach (int ficha in fichasAgarradas)
@@ -22,6 +23,7 @@ public class EnviaFichasAgarradas : MonoBehaviour
             envio = envio + "11111";
             veces++;
         }
+        
         this.gameObject.GetComponent<RS232>().Send(envio);
         
     }
