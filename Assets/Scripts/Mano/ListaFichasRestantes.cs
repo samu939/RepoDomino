@@ -46,9 +46,28 @@ public class ListaFichasRestantes : MonoBehaviour
         {
             listaFichasRestantes[index] = ficha;
         }
-        Debug.Log(CountNotNull());
+        
         ArreglarFicha(ficha);
-        Instantiate(ficha, new Vector3(7,-7.3f,-1), ficha.transform.rotation);
+        Instantiate(ficha, new Vector3(EncontrarUltima() + 0.6f,-6.5f,-1), ficha.transform.rotation);
+
+    }
+
+    public float EncontrarUltima(){
+
+        float ultima = 0;
+        GameObject[] FichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
+        for (int j = 0; j < FichasRestantes.Length; j++)
+        {
+            if (FichasRestantes[j] != null)
+            {
+                
+                if (FichasRestantes[j].transform.position.x>ultima){
+                    ultima = FichasRestantes[j].transform.position.x;
+                    
+                    }
+            }
+        }
+        return ultima;
 
     }
 

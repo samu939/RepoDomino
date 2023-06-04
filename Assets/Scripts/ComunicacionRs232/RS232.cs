@@ -16,7 +16,7 @@ public class RS232 : MonoBehaviour
     public void StartThread()
     {
 
-        port = new SerialPort("COM1", 4800, Parity.None, 8, StopBits.One);
+        port = new SerialPort("COM2", 4800, Parity.None, 8, StopBits.One);
 
         port.Open();
         // Creates and starts the thread
