@@ -38,7 +38,7 @@ public class PiezaDomino : MonoBehaviour
                 if(transform.position.x>gameCamera.transform.position.x-17.7 && transform.position.x < gameCamera.transform.position.x + 17.7 &&
                     transform.position.y > gameCamera.transform.position.y - 8.3 && transform.position.y < gameCamera.transform.position.y + 8.3) { 
 
-                    newPosition = gameCamera.ScreenToWorldPoint(Input.mousePosition); ;
+                    newPosition = gameCamera.ScreenToWorldPoint(Input.mousePosition); 
                     newPosition.z = -1;
                     transform.position = newPosition;
                 }
@@ -88,21 +88,21 @@ public class PiezaDomino : MonoBehaviour
     {
         if (collision.CompareTag("inicio1"))
         {
-            collision.GetComponent<PrimeraJugada>().hacerJugada(this.gameObject,true);
+            collision.GetComponent<PrimeraJugada>().hacerJugada(this.gameObject,true,0);
             
         }
         if (collision.CompareTag("jugarIzq"))
         {
             if(this.numeroDer == collision.GetComponentInParent<PiezaDomino>().numeroIzq || this.numeroIzq == collision.GetComponentInParent<PiezaDomino>().numeroIzq)
             {
-                collision.GetComponent<Jugada>().hacerJugadaIzq(this.gameObject,true);
+                collision.GetComponent<Jugada>().hacerJugadaIzq(this.gameObject,true,0);
             }
         }
         if (collision.CompareTag("jugarDer"))
         {
             if (this.numeroDer == collision.GetComponentInParent<PiezaDomino>().numeroDer || this.numeroIzq == collision.GetComponentInParent<PiezaDomino>().numeroDer)
             {
-                collision.GetComponent<Jugada>().hacerJugadaDer(this.gameObject,true);
+                collision.GetComponent<Jugada>().hacerJugadaDer(this.gameObject,true,0);
             }
         }
     }

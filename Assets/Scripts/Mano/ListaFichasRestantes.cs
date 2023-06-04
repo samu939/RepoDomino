@@ -139,6 +139,5 @@ public class ListaFichasRestantes : MonoBehaviour
             i = FindIndex(ficha);
             listaFichasRestantes[i] = null;
         }
-        Debug.Log(CountNotNull());
     }
 }

@@ -10,7 +10,7 @@ public class RecibirTranca : MonoBehaviour
         int veces = binarioDecimal(Int32.Parse(data.Substring(19, 2)));
         veces++;
 
-        if (veces == 4 && PlayerPrefs.GetInt("modo", 0) == 1)
+        if (veces == 4 || PlayerPrefs.GetInt("modo", 0) == 2)
         {
 
             int llevaE1 = binarioDecimal(Int32.Parse(data.Substring(3, 8)));
@@ -27,7 +27,7 @@ public class RecibirTranca : MonoBehaviour
                     llevaE2 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();
                 else
                     llevaE1 = GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos();    
-                    
+
                 if (llevaE1 > llevaE2)
                     this.gameObject.GetComponent<RS232>().Send("1101" + decimalBinario(llevaE1-llevaE2, 8));
                 else if (llevaE2 > llevaE1)

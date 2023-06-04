@@ -20,12 +20,12 @@ public class PrimeraJugada : MonoBehaviour
 
     }
 
-    public void hacerJugada(GameObject fichaSeleccionada, bool jugadaPropia)
+    public void hacerJugada(GameObject fichaSeleccionada, bool jugadaPropia, int jugador)
     {
 
-        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == 6 && fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == 6 || 
-            (PlayerPrefs.GetInt("puntosEquipo1",0)>0 || PlayerPrefs.GetInt("puntosEquipo2",0)>0) || 
-            PlayerPrefs.GetInt("modo",0)==2)
+        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == 6 && fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == 6 ||
+            (PlayerPrefs.GetInt("puntosEquipo1", 0) > 0 || PlayerPrefs.GetInt("puntosEquipo2", 0) > 0) ||
+            PlayerPrefs.GetInt("modo", 0) == 2)
         {
             if (jugadaPropia)
             {
@@ -34,6 +34,22 @@ public class PrimeraJugada : MonoBehaviour
             }
             else
             {
+                if (PlayerPrefs.GetInt("modo", 0) == 2)
+                {
+                    GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--;
+                }
+                else
+                {
+                    switch (jugador)
+                    {
+                        case 2: GameObject.FindGameObjectWithTag("FichasJug2").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 3: GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 4: GameObject.FindGameObjectWithTag("FichasJug4").GetComponent<FichasContrarios>().cantFichas--; break;
+                    }
+                }
+
                 fichaSeleccionada.transform.GetChild(0).tag = "jugarIzq";
                 fichaSeleccionada.transform.GetChild(1).tag = "jugarDer";
                 fichaSeleccionada.tag = "fichaContrario";

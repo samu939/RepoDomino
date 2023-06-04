@@ -15,6 +15,7 @@ public class RecibirAgarrarPila : MonoBehaviour
     public void AgarrarPila(string data)
     {
         listaPiezas = GameObject.FindGameObjectWithTag("tablero").GetComponent<listaPiezas>();
+        GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas++;
         GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasPila>().Delete(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(3, 5)))]);
     }
 

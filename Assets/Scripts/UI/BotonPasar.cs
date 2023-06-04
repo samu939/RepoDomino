@@ -20,6 +20,7 @@ public class BotonPasar : MonoBehaviour
             {
                 if (CanPass() && listaFichasRestantes[0].GetComponent<PiezaDomino>().turno)
                 {
+                    
                     GameObject ficha= this.AgarrarPila();
                     GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().AgregarFicha(ficha);
                     

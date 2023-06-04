@@ -14,6 +14,12 @@ TagManager:
   - fichaContrario
   - botonGenerar
   - mensaje
+  - FichasJug2
+  - FichasJug3
+  - FichasJug4
+  - VentanaError
+  - Canva1
+  - Canva2
   layers:
   - Default
   - TransparentFX

@@ -77,6 +77,7 @@ public class ListaPiezasMesa : MonoBehaviour
                 (Fichas2 == 7 && (fichaIzq == 2 && fichaDer == 2)) || (Fichas3 == 7 && (fichaIzq == 3 && fichaDer == 3)) ||
                 (Fichas4 == 7 && (fichaIzq == 4 && fichaDer == 4)) || (Fichas5 == 7 && (fichaIzq == 5 && fichaDer == 5)) ||
                 (Fichas6 == 7 && (fichaIzq == 6 && fichaDer == 6)))
+                Debug.Log("si sirve");
                 return true;
         }
 

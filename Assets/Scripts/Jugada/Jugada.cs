@@ -13,7 +13,7 @@ public class Jugada : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void hacerJugadaIzq(GameObject fichaSeleccionada, bool jugadaPropia)
+    public void hacerJugadaIzq(GameObject fichaSeleccionada, bool jugadaPropia, int jugador)
     {
 
         if (!FichaYaJugada(fichaSeleccionada))
@@ -26,6 +26,21 @@ public class Jugada : MonoBehaviour
             }
             else
             {
+                if (PlayerPrefs.GetInt("modo", 0) == 2)
+                {
+                    GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--;
+                }
+                else
+                {
+                    switch (jugador)
+                    {
+                        case 2: GameObject.FindGameObjectWithTag("FichasJug2").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 3: GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 4: GameObject.FindGameObjectWithTag("FichasJug4").GetComponent<FichasContrarios>().cantFichas--; break;
+                    }
+                }
 
                 fichaSeleccionada.tag = "fichaContrario";
                 Instantiate(fichaSeleccionada, fichaSeleccionada.transform.position, fichaSeleccionada.transform.rotation);
@@ -33,59 +48,25 @@ public class Jugada : MonoBehaviour
             }
             fichaSeleccionada.tag = "FichaColocada";
             GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
+            Quaternion rotation = RotarIzquierda(fichaSeleccionada);
+            Vector3 posicionColocada = this.GetComponentInParent<Transform>().position;
+            //Debug.Log(posicionColocada);
+            posicionColocada.y = 0;
+            if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
+            {
+
+                posicionColocada.x -= 1f;
+            }
+            else
+            {
+                posicionColocada.x -= 1.4f;
+            }
+            posicionColocada.z = -1;
+            fichaSeleccionada.transform.position = posicionColocada;
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    Quaternion rotation = transform.localRotation;
-                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
-                    {
-                        rotation.z = 0;
-                        fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-                        fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
-                        if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
-                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                    }
-                    else
-                    {
-                        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroIzq)
-                        {
-                            rotation.z = 1;
-                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
-
-                        }
-                        else
-                        {
-                            rotation.z = -1;
-
-                            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                            int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
-                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
-                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
-
-                        }
-                    }
-                    fichaSeleccionada.transform.localRotation = rotation;
-
-                    Vector3 posicionColocada = this.GetComponentInParent<Transform>().position;
-                    //Debug.Log(posicionColocada);
-                    posicionColocada.y = 0;
-                    if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
-                    {
-
-                        posicionColocada.x -= 1f;
-                    }
-                    else
-                    {
-                        posicionColocada.x -= 1.4f;
-                    }
-                    posicionColocada.z = -1;
-                    fichaSeleccionada.transform.position = posicionColocada;
 
 
                     fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
@@ -120,7 +101,7 @@ public class Jugada : MonoBehaviour
 
     }
 
-    public void hacerJugadaDer(GameObject fichaSeleccionada, bool jugadaPropia)
+    public void hacerJugadaDer(GameObject fichaSeleccionada, bool jugadaPropia, int jugador)
     {
         if (!FichaYaJugada(fichaSeleccionada))
         {
@@ -133,6 +114,21 @@ public class Jugada : MonoBehaviour
             }
             else
             {
+                if (PlayerPrefs.GetInt("modo", 0) == 2)
+                {
+                    GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--;
+                }
+                else
+                {
+                    switch (jugador)
+                    {
+                        case 2: GameObject.FindGameObjectWithTag("FichasJug2").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 3: GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--; break;
+
+                        case 4: GameObject.FindGameObjectWithTag("FichasJug4").GetComponent<FichasContrarios>().cantFichas--; break;
+                    }
+                }
 
                 fichaSeleccionada.tag = "fichaContrario";
                 Instantiate(fichaSeleccionada, fichaSeleccionada.transform.position, fichaSeleccionada.transform.rotation);
@@ -140,51 +136,19 @@ public class Jugada : MonoBehaviour
             }
             fichaSeleccionada.tag = "FichaColocada";
             GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
+            Quaternion rotation = RotarDerecha(fichaSeleccionada);
+            Vector3 posicionColocada = this.GetComponentInParent<Transform>().transform.position;
+            posicionColocada.y = 0;
+            if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
+                posicionColocada.x += 1f;
+            else
+                posicionColocada.x += 1.37f;
+            posicionColocada.z = -1;
+            fichaSeleccionada.transform.position = posicionColocada;
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    Quaternion rotation = transform.localRotation;
-                    if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
-                    {
-                        rotation.z = 0;
-                        fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                        fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                    }
-                    else
-                    {
-                        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
-                        {
-
-                            rotation.z = -1;
-                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
-                            int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
-                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
-                            fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
-
-                        }
-                        else
-                        {
-                            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                            rotation.z = 1;
-                            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
-                            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
-
-                        }
-                    }
-                    fichaSeleccionada.transform.localRotation = rotation;
-                    Vector3 posicionColocada = this.GetComponentInParent<Transform>().transform.position;
-                    posicionColocada.y = 0;
-                    if (this.GetComponentInParent<Transform>().transform.localRotation.z != 0 && rotation.z == 0 || this.GetComponentInParent<Transform>().transform.localRotation.z == 0)
-                        posicionColocada.x += 1f;
-                    else
-                        posicionColocada.x += 1.37f;
-                    posicionColocada.z = -1;
-                    fichaSeleccionada.transform.position = posicionColocada;
 
                     fichaSeleccionada.GetComponent<PiezaDomino>().colocada = true;
                     fichaSeleccionada.GetComponent<BoxCollider2D>().size = Vector2.zero;
@@ -216,8 +180,86 @@ public class Jugada : MonoBehaviour
 
     }
 
+    private Quaternion RotarDerecha(GameObject fichaSeleccionada)
+    {
+        Quaternion rotation = transform.localRotation;
+        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
+        {
+            rotation.z = 0;
+            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+            fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
+            GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
+        }
+        else
+        {
+            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
+            {
+
+                rotation.z = -1;
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
+                fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
+                fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
+                fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
+                fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
+                rotation.z = 1;
+                fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
+
+            }
+        }
+        fichaSeleccionada.transform.localRotation = rotation;
+        return rotation;
+    }
+
+    private Quaternion RotarIzquierda(GameObject fichaSeleccionada)
+    {
+
+        Quaternion rotation = transform.localRotation;
+        if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
+        {
+            rotation.z = 0;
+            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+            fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
+            if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+        }
+        else
+        {
+            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroIzq)
+            {
+                rotation.z = 1;
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+                fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
+
+            }
+            else
+            {
+                rotation.z = -1;
+
+                fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
+                int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
+                fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
+                fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
+                fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+
+            }
+        }
+        fichaSeleccionada.transform.localRotation = rotation;
+        return rotation;
+    }
+
     public bool FichaYaJugada(GameObject ficha)
-    {   
+    {
 
         GameObject[] listaFichasMesa = new GameObject[28];
         GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();

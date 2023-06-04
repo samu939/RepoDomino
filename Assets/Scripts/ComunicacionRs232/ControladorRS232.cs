@@ -11,19 +11,20 @@ public class ControladorRS232 : MonoBehaviour
 
         data = this.gameObject.GetComponent<RS232>().input;
 
-        //Debug.Log(data);
+        
         if (data.Length > 2)
         {
 
             switch (data.Substring(0, 3))
             {
+
                 case "000":
                     
                     this.gameObject.GetComponent<RecibirPiezasEscogidas>().PiezasYaEscogidas(data);
                     break;
                 case "001":
-                    
-                        this.gameObject.GetComponent<ColocarPiezaOtro>().ColocarPieza(data);
+
+                    this.gameObject.GetComponent<ColocarPiezaOtro>().ColocarPieza(data);
 
                     break;
                 case "010":
@@ -35,19 +36,20 @@ public class ControladorRS232 : MonoBehaviour
                     break;
                 case "100":
                     this.gameObject.GetComponent<RecibirVictoria>().Victoria(data);
-                    break;    
+                    break;
                 case "101":
                     this.gameObject.GetComponent<RecibirTranca>().Tranca(data);
-                    break; 
+                    break;
                 case "110":
                     this.gameObject.GetComponent<RecibirPuntuacion>().Puntos(data);
-                    break;   
+                    break;
                 case "111":
                     this.gameObject.GetComponent<RecibirAgarrarPila>().AgarrarPila(data);
-                    break;      
+                    break;
 
             }
         }
+        
         this.gameObject.GetComponent<RS232>().input = "";
     }
 

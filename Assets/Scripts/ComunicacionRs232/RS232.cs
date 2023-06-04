@@ -16,8 +16,8 @@ public class RS232 : MonoBehaviour
     public void StartThread()
     {
 
-        port = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
-        
+        port = new SerialPort("COM1", 4800, Parity.None, 8, StopBits.One);
+
         port.Open();
         // Creates and starts the thread
         readThread = new Thread(ReadThreadLoop);
@@ -40,28 +40,27 @@ public class RS232 : MonoBehaviour
 
         while (IsLooping())
         {
-            if (port.IsOpen)
+
+            if (output != "")
             {
 
-                if (output != "")
-                {
+                string command = output;
 
-                    string command = output;
+                SendData(command);
 
-                    SendData(command);
-
-                }
-
-                string result = Pruebaleer();
-
-                if (result != "")
-                {
-
-                    input = result;
-
-
-                }
             }
+            
+
+            string result = Pruebaleer();
+
+            if (result != "")
+            {
+    
+                input = result;
+
+
+            }
+
 
         }
 
@@ -110,10 +109,15 @@ public class RS232 : MonoBehaviour
     {
 
         string data = null;
+
         while (port.BytesToRead > 0)
         {
             data += (char)port.ReadByte();
         }
+        port.BaseStream.Flush();
+        //Debug.Log(data);
+        
+        
 
         return input + data;
 
@@ -121,13 +125,15 @@ public class RS232 : MonoBehaviour
 
     private void OnDisable()
     {
-        port.Close();
         readThread.Abort();
+        port.Close();
     }
 
-    private void OnApplicationQuit() {
-        
-        port.Close();
+    private void OnApplicationQuit()
+    {
+
         readThread.Abort();
+        port.Close();
+
     }
 }

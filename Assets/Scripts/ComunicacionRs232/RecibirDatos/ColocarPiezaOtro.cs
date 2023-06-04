@@ -31,15 +31,15 @@ public class ColocarPiezaOtro : MonoBehaviour
             GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "";
             GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("010");
         }
-        if (data.Substring(3, 2) == "00") jugarIzquierda.hacerJugadaIzq(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false);
-        if (data.Substring(3, 2) == "01") jugarDerecha.hacerJugadaDer(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false);
-        if (data.Substring(3, 2) == "10" && !yaJugoCentro) jugarCentro.hacerJugada(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false);
+        if (data.Substring(3, 2) == "00") jugarIzquierda.hacerJugadaIzq(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false, binarioDecimal(Int32.Parse(data.Substring(10, 2))));
+        if (data.Substring(3, 2) == "01") jugarDerecha.hacerJugadaDer(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false, binarioDecimal(Int32.Parse(data.Substring(10, 2))));
+        if (data.Substring(3, 2) == "10" && !yaJugoCentro) jugarCentro.hacerJugada(listaPiezas.listaFichasCompleta[binarioDecimal(Int32.Parse(data.Substring(5, 5)))], false, binarioDecimal(Int32.Parse(data.Substring(10, 2))));
 
         if (GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje != "")
             GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Jugada el jugador " + binarioDecimal(Int32.Parse(data.Substring(10, 2)));
 
     }
-    public static int binarioDecimal(long binario)
+    public int binarioDecimal(long binario)
     {
 
         int numero = 0;
