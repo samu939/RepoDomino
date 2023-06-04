@@ -100,7 +100,7 @@ public class GeneradorMano : MonoBehaviour
     public void crearMano()
     {
         i = 0;
-        posicionPieza.y = -7.3f;
+        posicionPieza.y = -6.5f;
         posicionPieza.z = -1;
         while (i < 7)
         {
