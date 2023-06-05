@@ -49,17 +49,35 @@ public class Jugada : MonoBehaviour
             }
             fichaSeleccionada.tag = "FichaColocada";
             GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
-
-            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer != this.GetComponentInParent<PiezaDomino>().numeroIzq)
-                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq=true;
+            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer)
+            {
+                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq = false;
+                fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+            }
             else
-                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq=false;
+            {
+                if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == this.GetComponentInParent<PiezaDomino>().numeroIzq)
+                {
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq = true;
+                    fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                    fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                    fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+                    fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeDer";
+                    fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeIzq";
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq = false;
+                    fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+
 
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq=false;
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq = false;
                     Quaternion rotation = RotarIzquierda(fichaSeleccionada);
                     Vector3 posicionColocada = this.GetComponentInParent<Transform>().position;
                     //Debug.Log(posicionColocada);
@@ -82,9 +100,9 @@ public class Jugada : MonoBehaviour
                 else
                 {
                     if (PlayerPrefs.GetInt("Jugador", 0) == 1 || PlayerPrefs.GetInt("Jugador", 0) == 3)
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "000000001");
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("101" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 8) + "0000000001");
                     else
-                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("1010000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 7) + "01");
+                        GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<RS232>().Send("10100000000" + decimalBinario(GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().conteoPuntos(), 8) + "01");
                 }
             }
             else
@@ -143,16 +161,36 @@ public class Jugada : MonoBehaviour
             }
             fichaSeleccionada.tag = "FichaColocada";
             GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().ActualizarLista();
-            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
-                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer=true;
+
+            if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq == fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer)
+            {
+                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaIzq = false;
+                fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+            }
             else
-                GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer=false;
+            {
+                if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == this.GetComponentInParent<PiezaDomino>().numeroDer)
+                {
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer = true;
+                    fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+                    fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
+                    fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+                    fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeDer";
+                    fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeIzq";
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer = false;
+                    fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+                }
+            }
+
 
             if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>().Ganada())
             {
                 if (!GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().Trancada())
                 {
-                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer=false;
+                    GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaPiezasMesa>().volteaDer = false;
                     Quaternion rotation = RotarDerecha(fichaSeleccionada);
                     Vector3 posicionColocada = this.GetComponentInParent<Transform>().transform.position;
                     posicionColocada.y = 0;
@@ -198,7 +236,6 @@ public class Jugada : MonoBehaviour
         if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
         {
             rotation.z = 0;
-            fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
             fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
             fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeDer";
             GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
@@ -210,21 +247,17 @@ public class Jugada : MonoBehaviour
 
                 rotation.z = -1;
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
-                fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+
                 int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
-                fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeDer";
-                fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeIzq";
+
 
             }
             else
             {
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
                 rotation.z = 1;
-                fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
                 fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
                 fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeDer";
             }
@@ -240,7 +273,7 @@ public class Jugada : MonoBehaviour
         if (fichaSeleccionada.GetComponent<PiezaDomino>().numeroDer == fichaSeleccionada.GetComponent<PiezaDomino>().numeroIzq)
         {
             rotation.z = 0;
-            fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+
             fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
             fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeIzq";
             if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
@@ -252,7 +285,7 @@ public class Jugada : MonoBehaviour
             {
                 rotation.z = 1;
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
-                fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
+
                 fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
                 fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeIzq";
 
@@ -261,15 +294,12 @@ public class Jugada : MonoBehaviour
             {
                 rotation.z = -1;
 
-                fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
+
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
                 int numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq;
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroIzq = fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer;
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
-                fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
-                fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
-                fichaSeleccionada.transform.GetChild(2).gameObject.tag = "bordeDer";
-                fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeIzq";
+
 
             }
         }

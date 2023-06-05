@@ -70,7 +70,7 @@ public class ListaPiezasMesa : MonoBehaviour
 
         }
 
-        if (GameObject.FindGameObjectWithTag("jugarDer") != null && GameObject.FindGameObjectWithTag("jugarIzq") != null)
+        if (GameObject.FindGameObjectWithTag("inicio1") == null)
         {
             int fichaDer;
             int fichaIzq;
@@ -78,16 +78,24 @@ public class ListaPiezasMesa : MonoBehaviour
                 fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroDer;
             else 
                 fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroIzq;
+
             if(!volteaIzq)       
                 fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroIzq;
             else    
                 fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroDer;
 
+            Debug.Log(fichaIzq);
+            Debug.Log(fichaDer);
+
             if ((Fichas0 == 7 && (fichaIzq == 0 && fichaDer == 0)) || (Fichas1 == 7 && (fichaIzq == 1 && fichaDer == 1)) ||
                 (Fichas2 == 7 && (fichaIzq == 2 && fichaDer == 2)) || (Fichas3 == 7 && (fichaIzq == 3 && fichaDer == 3)) ||
                 (Fichas4 == 7 && (fichaIzq == 4 && fichaDer == 4)) || (Fichas5 == 7 && (fichaIzq == 5 && fichaDer == 5)) ||
                 (Fichas6 == 7 && (fichaIzq == 6 && fichaDer == 6)))
+                {
+                
                 return true;
+                
+                }
         }
 
         return false;
