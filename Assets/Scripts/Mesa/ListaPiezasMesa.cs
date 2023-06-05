@@ -5,6 +5,9 @@ using UnityEngine;
 public class ListaPiezasMesa : MonoBehaviour
 {
     public GameObject[] listaFichasMesa = new GameObject[25];
+
+    public bool volteaDer=false;
+    public bool volteaIzq=false;
     public int Fichas0 = 0;
     public int Fichas1 = 0;
     public int Fichas2 = 0;
@@ -69,15 +72,21 @@ public class ListaPiezasMesa : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("jugarDer") != null && GameObject.FindGameObjectWithTag("jugarIzq") != null)
         {
-            int fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroDer;
-            int fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroIzq;
-
+            int fichaDer;
+            int fichaIzq;
+            if (!volteaDer)
+                fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroDer;
+            else 
+                fichaDer = GameObject.FindGameObjectWithTag("jugarDer").GetComponentInParent<PiezaDomino>().numeroIzq;
+            if(!volteaIzq)       
+                fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroIzq;
+            else    
+                fichaIzq = GameObject.FindGameObjectWithTag("jugarIzq").GetComponentInParent<PiezaDomino>().numeroDer;
 
             if ((Fichas0 == 7 && (fichaIzq == 0 && fichaDer == 0)) || (Fichas1 == 7 && (fichaIzq == 1 && fichaDer == 1)) ||
                 (Fichas2 == 7 && (fichaIzq == 2 && fichaDer == 2)) || (Fichas3 == 7 && (fichaIzq == 3 && fichaDer == 3)) ||
                 (Fichas4 == 7 && (fichaIzq == 4 && fichaDer == 4)) || (Fichas5 == 7 && (fichaIzq == 5 && fichaDer == 5)) ||
                 (Fichas6 == 7 && (fichaIzq == 6 && fichaDer == 6)))
-                Debug.Log("si sirve");
                 return true;
         }
 
