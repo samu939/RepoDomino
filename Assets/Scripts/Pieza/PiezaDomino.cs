@@ -20,11 +20,28 @@ public class PiezaDomino : MonoBehaviour
     private bool isDragging;
     private Camera gameCamera = null;
 
+
+    public void ShowBorder(bool show){
+        if(GameObject.FindGameObjectWithTag("inicio1")==null){
+
+            if(GameObject.FindGameObjectWithTag("jugarDer").transform.parent.transform.GetChild(2).gameObject.tag == "bordeIzq")
+                GameObject.FindGameObjectWithTag("jugarDer").transform.parent.transform.GetChild(3).gameObject.SetActive(show);
+            else    
+                GameObject.FindGameObjectWithTag("jugarDer").transform.parent.transform.GetChild(2).gameObject.SetActive(show);
+
+            if(GameObject.FindGameObjectWithTag("jugarIzq").transform.parent.transform.GetChild(2).gameObject.tag == "bordeIzq")
+                GameObject.FindGameObjectWithTag("jugarIzq").transform.parent.transform.GetChild(2).gameObject.SetActive(show);
+            else    
+                GameObject.FindGameObjectWithTag("jugarIzq").transform.parent.transform.GetChild(3).gameObject.SetActive(show);        
+        }
+    }
+
     void OnMouseDown()
     {
         if (turno) { 
             
             isDragging = true;
+            ShowBorder(true);
         }
     }
 
@@ -65,6 +82,7 @@ public class PiezaDomino : MonoBehaviour
         if (turno)
         {
             isDragging = false;
+            ShowBorder(false);
             //transform.position = initialPosition;
         }
     }
@@ -86,8 +104,10 @@ public class PiezaDomino : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.CompareTag("inicio1"))
         {
+            ShowBorder(false);
             collision.GetComponent<PrimeraJugada>().hacerJugada(this.gameObject,true,0);
             
         }
@@ -95,14 +115,18 @@ public class PiezaDomino : MonoBehaviour
         {
             if(this.numeroDer == collision.GetComponentInParent<PiezaDomino>().numeroIzq || this.numeroIzq == collision.GetComponentInParent<PiezaDomino>().numeroIzq)
             {
+                ShowBorder(false);
                 collision.GetComponent<Jugada>().hacerJugadaIzq(this.gameObject,true,0);
+                
             }
         }
         if (collision.CompareTag("jugarDer"))
         {
             if (this.numeroDer == collision.GetComponentInParent<PiezaDomino>().numeroDer || this.numeroIzq == collision.GetComponentInParent<PiezaDomino>().numeroDer)
             {
+                ShowBorder(false);
                 collision.GetComponent<Jugada>().hacerJugadaDer(this.gameObject,true,0);
+                
             }
         }
     }

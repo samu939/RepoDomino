@@ -26,6 +26,7 @@ public class Jugada : MonoBehaviour
             }
             else
             {
+                ArreglarFicha(fichaSeleccionada);
                 if (PlayerPrefs.GetInt("modo", 0) == 2)
                 {
                     GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--;
@@ -114,6 +115,7 @@ public class Jugada : MonoBehaviour
             }
             else
             {
+                ArreglarFicha(fichaSeleccionada);
                 if (PlayerPrefs.GetInt("modo", 0) == 2)
                 {
                     GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--;
@@ -188,6 +190,7 @@ public class Jugada : MonoBehaviour
             rotation.z = 0;
             fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
             fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
+            fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeDer";
             GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 1);
         }
         else
@@ -203,6 +206,8 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
                 fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
                 fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+                fichaSeleccionada.transform.GetChild(2).gameObject.tag="bordeDer";
+                fichaSeleccionada.transform.GetChild(3).gameObject.tag="bordeIzq";
 
             }
             else
@@ -211,7 +216,7 @@ public class Jugada : MonoBehaviour
                 rotation.z = 1;
                 fichaSeleccionada.transform.GetChild(1).gameObject.SetActive(true);
                 fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarDer";
-
+                fichaSeleccionada.transform.GetChild(3).gameObject.tag = "bordeDer";
             }
         }
         fichaSeleccionada.transform.localRotation = rotation;
@@ -227,6 +232,7 @@ public class Jugada : MonoBehaviour
             rotation.z = 0;
             fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
             fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
+            fichaSeleccionada.transform.GetChild(2).gameObject.tag="bordeIzq";
             if (GameObject.FindGameObjectWithTag("tablero").GetComponent<ListaFichasRestantes>())
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
         }
@@ -238,6 +244,7 @@ public class Jugada : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Comunicacion").GetComponent<EnviarFichaColocada>().ColocarPieza(fichaSeleccionada, 0);
                 fichaSeleccionada.transform.GetChild(0).gameObject.SetActive(true);
                 fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarIzq";
+                fichaSeleccionada.transform.GetChild(2).gameObject.tag="bordeIzq";
 
             }
             else
@@ -251,11 +258,28 @@ public class Jugada : MonoBehaviour
                 fichaSeleccionada.GetComponentInParent<PiezaDomino>().numeroDer = numeroIzq;
                 fichaSeleccionada.transform.GetChild(1).gameObject.tag = "jugarIzq";
                 fichaSeleccionada.transform.GetChild(0).gameObject.tag = "jugarDer";
+                fichaSeleccionada.transform.GetChild(2).gameObject.tag="bordeDer";
+                fichaSeleccionada.transform.GetChild(3).gameObject.tag="bordeIzq";
 
             }
         }
         fichaSeleccionada.transform.localRotation = rotation;
         return rotation;
+    }
+
+    public void ArreglarFicha(GameObject ficha)
+    {
+        ficha.tag = "pieza";
+        ficha.transform.GetChild(0).tag = "jugarIzq";
+        ficha.transform.GetChild(1).tag = "jugarDer";
+        ficha.transform.GetChild(3).gameObject.tag="bordeDer";
+        ficha.transform.GetChild(2).gameObject.tag="bordeIzq";
+        ficha.transform.GetChild(0).gameObject.SetActive(false);
+        ficha.transform.GetChild(1).gameObject.SetActive(false);
+        ficha.transform.GetChild(2).gameObject.SetActive(false);
+        ficha.transform.GetChild(3).gameObject.SetActive(false);
+        
+        ficha.transform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
     public bool FichaYaJugada(GameObject ficha)

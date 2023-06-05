@@ -85,8 +85,13 @@ public class GeneradorMano : MonoBehaviour
         ficha.tag = "pieza";
         ficha.transform.GetChild(0).tag = "jugarIzq";
         ficha.transform.GetChild(1).tag = "jugarDer";
+        ficha.transform.GetChild(3).gameObject.tag="bordeDer";
+        ficha.transform.GetChild(2).gameObject.tag="bordeIzq";
+        
         ficha.transform.GetChild(0).gameObject.SetActive(false);
         ficha.transform.GetChild(1).gameObject.SetActive(false);
+        ficha.transform.GetChild(2).gameObject.SetActive(false);
+        ficha.transform.GetChild(3).gameObject.SetActive(false);
         ficha.transform.rotation = new Quaternion(0, 0, 0, 0);
         ficha.GetComponent<BoxCollider2D>().size = new Vector2(4.75f, 8.55f);
         ficha.GetComponent<PiezaDomino>().turno = false;
