@@ -35,6 +35,8 @@ public class Jugada : MonoBehaviour
                 {
                     switch (jugador)
                     {
+                        case 1: GameObject.FindGameObjectWithTag("FichasJug1").GetComponent<FichasContrarios>().cantFichas--; break;
+                        
                         case 2: GameObject.FindGameObjectWithTag("FichasJug2").GetComponent<FichasContrarios>().cantFichas--; break;
 
                         case 3: GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--; break;
@@ -147,6 +149,8 @@ public class Jugada : MonoBehaviour
                 {
                     switch (jugador)
                     {
+                        case 1: GameObject.FindGameObjectWithTag("FichasJug1").GetComponent<FichasContrarios>().cantFichas--; break;
+
                         case 2: GameObject.FindGameObjectWithTag("FichasJug2").GetComponent<FichasContrarios>().cantFichas--; break;
 
                         case 3: GameObject.FindGameObjectWithTag("FichasJug3").GetComponent<FichasContrarios>().cantFichas--; break;

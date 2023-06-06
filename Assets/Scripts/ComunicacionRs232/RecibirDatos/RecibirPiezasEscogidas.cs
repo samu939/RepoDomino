@@ -6,6 +6,9 @@ using UnityEngine;
 public class RecibirPiezasEscogidas : MonoBehaviour
 {
     GeneradorMano generadorMano;
+    public GameObject fichasIzq;
+    public GameObject fichasDer;
+    public GameObject fichasFrent;
     public void PiezasYaEscogidas(string data)
     {
         if (GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().piezasUsadas.Count == 0)
@@ -39,6 +42,13 @@ public class RecibirPiezasEscogidas : MonoBehaviour
             if (j == 14 && PlayerPrefs.GetInt("Jugador", 0) == 0)
                 PlayerPrefs.SetInt("Jugador", 2);
 
+            if (PlayerPrefs.GetInt("modo", 0) == 1)
+            {
+                fichasDer.GetComponent<FichasContrarios>().ActualizarJugadores();
+                fichasIzq.GetComponent<FichasContrarios>().ActualizarJugadores();
+                fichasFrent.GetComponent<FichasContrarios>().ActualizarJugadores();
+            } 
+
             GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().piezasUsadas = piezasUsadas;
             GameObject.FindGameObjectWithTag("tablero").GetComponent<GeneradorMano>().GenerarMano();
         }
@@ -68,6 +78,13 @@ public class RecibirPiezasEscogidas : MonoBehaviour
             }
             if (PlayerPrefs.GetInt("Jugador", 0) == 0)
                 PlayerPrefs.SetInt("Jugador", 1);
+
+            if (PlayerPrefs.GetInt("modo", 0) == 1)
+            {
+                fichasDer.GetComponent<FichasContrarios>().ActualizarJugadores();
+                fichasIzq.GetComponent<FichasContrarios>().ActualizarJugadores();
+                fichasFrent.GetComponent<FichasContrarios>().ActualizarJugadores();
+            }     
             GameObject.FindGameObjectWithTag("mensaje").GetComponent<MensajesJugadas>().mensaje = "Es tu turno";
             Turno(true);
         }

@@ -2983,6 +2983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95efe7857265d6144925bf0c2fd5f896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fichasIzq: {fileID: 1155035144}
+  fichasDer: {fileID: 978552455}
+  fichasFrent: {fileID: 1655854631}
 --- !u!114 &1615485447
 MonoBehaviour:
   m_ObjectHideFlags: 0
