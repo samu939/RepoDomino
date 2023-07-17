@@ -27,15 +27,9 @@ public class NoSeDetectaJugador : MonoBehaviour
 
     public void BloquearPiezas(bool activa)
     {
-        GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
-        if (listaFichasRestantes != null)
-        {
-            for (int j = 0; j < listaFichasRestantes.Length; j++)
-            {
+        
+        Turno(activa);
 
-
-            }
-        }
     }
     // Start is called before the first frame update
     void Start()
@@ -47,5 +41,16 @@ public class NoSeDetectaJugador : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void Turno(bool turno)
+    {
+        GameObject[] listaFichasRestantes = GameObject.FindGameObjectsWithTag("pieza");
+        for (int j = 0; j < listaFichasRestantes.Length; j++)
+        {
+
+            listaFichasRestantes[j].GetComponent<PiezaDomino>().turno = turno;
+
+        }
     }
 }

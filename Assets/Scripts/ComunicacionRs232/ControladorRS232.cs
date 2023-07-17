@@ -14,7 +14,7 @@ public class ControladorRS232 : MonoBehaviour
         
         if (data.Length > 2)
         {
-
+            
             switch (data.Substring(0, 3))
             {
 
